@@ -1,22 +1,18 @@
 <script lang="ts">
-  import {
-    faker as baseFaker,
-    fakerEN,
-    fakerEN_US,
-    fakerEN_GB,
-    fakerFR,
-    fakerDE,
-    fakerIT,
-    fakerPT_BR,
-    fakerRU,
-    fakerJA,
-    fakerZH_CN,
-    fakerZH_TW,
-    fakerKO
-  } from '@faker-js/faker';
+  import { faker as fakerEN_US } from '@faker-js/faker/locale/en_US'
+  import { faker as fakerEN_GB } from '@faker-js/faker/locale/en_GB'
+  import { faker as fakerDE } from '@faker-js/faker/locale/de'
+  import { faker as fakerFR } from '@faker-js/faker/locale/fr'
+  import { faker as fakerIT } from '@faker-js/faker/locale/it'
+  import { faker as fakerPT_BR } from '@faker-js/faker/locale/pt_BR'
+  import { faker as fakerRU } from '@faker-js/faker/locale/ru'
+  import { faker as fakerJA } from '@faker-js/faker/locale/ja'
+  import { faker as fakerKO } from '@faker-js/faker/locale/ko'
+  import { faker as fakerZH_CN } from '@faker-js/faker/locale/zh_CN'
+  import { faker as fakerZH_TW } from '@faker-js/faker/locale/zh_TW'
   import { onMount } from 'svelte';
   
-  type FakerInstance = typeof baseFaker;
+  type FakerInstance = typeof fakerEN_US;
   
   type User = {
     backgroundImage: string;
@@ -37,12 +33,11 @@
   };
 
   let users: User[] = [];
-  let selectedCountry: string = 'RAND';
+  let selectedCountry: string = 'US';
   let includeMiddleName = false;
   let isCJK = false;
 
   const countryFakers :{ [key: string]: FakerInstance }  = {
-    RAND: baseFaker,
     US: fakerEN_US,
     GB: fakerEN_GB,
     FR: fakerFR,
@@ -57,32 +52,32 @@
   };
 
   const countries :{ [key: string]: string }  = {
-    RAND: 'Random',
-    US: 'USA',
+    RAND: 'English',
+    US: 'American',
     GB: 'British',
     FR: 'French',
     GE: 'German',
-    IT: 'Italy',
-    PT_BR: 'Brazil',
+    IT: 'Italian',
+    PT_BR: 'Brazilian',
     RU: 'Russian',
     ZH_CN: 'Chinese (Mainland)',
-    ZH_TW: 'Taiwanese',
+    ZH_TW: 'Chinese (Taiwan)',
     JA: 'Japanese',
     KO: 'Korean',
   };
 
-  const countriesWithMiddleName = ['US', 'GB', 'FR', 'IT', 'PT_BR', 'GE']; // ミドルネームを表示する国
+  const countriesWithMiddleName = ['US', 'GB', 'FR', 'IT', 'PT_BR', 'GE']; // Use middle-name
 
-  function generateUsers(countryCode: string = 'RAND') {
+  function generateUsers(countryCode: string = 'US') {
     users = [];
     const faker = countryFakers[countryCode];
     isCJK = ['JA', 'ZH_CN', 'ZH_TW', 'KO'].includes(countryCode);
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) {
       const sexType = faker.person.sexType()
       const firstName = faker.person.firstName(sexType);
       const lastName = faker.person.lastName(sexType);
-      // ミドルネームの条件分岐
+      // Middle-name
       const middleName = countriesWithMiddleName.includes(countryCode)
               ? faker.person.middleName(sexType) : '';
       
@@ -168,12 +163,6 @@
 </main>
 
 <style>
-  .user-card {
-    background-size: cover;
-    padding: 1rem;
-    color: white;
-    position: relative;
-  }
 
   .avatar {
     width: 50px;
@@ -193,17 +182,18 @@
   }
   
   .card__body {
-    padding: 64px 8px 16px;
+    padding: 10px 8px 16px;
     min-height: 160px;
     text-align: left;
     
   }
   
   .card__image {
-    padding-bottom: 100%;
     position: relative;
     border-bottom: 1px solid #888888;
-    object-fit: cover;
+    background-size: cover;
+    padding-bottom: 40%;
+    color: white;
   }
   
   .avatar {
