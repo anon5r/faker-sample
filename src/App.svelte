@@ -3,6 +3,6 @@
 </script>
 
 <main>
-  <h1>ユーザー一覧</h1>
+  <h1>Fake users</h1>
   <UserList />
 </main>
